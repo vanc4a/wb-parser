@@ -1,14 +1,9 @@
+const express = require('express');
+const app = express();
+const Router = require('./src/Router')
 
-// const express = require('express');
+app.use('/api', Router);
 
-const Advert = require("./src/providers/requests/Advert");
-const PromoList = require("./src/providers/requests/PromoList");
-
-// const app = express();
-
-// app.use('/api')
-
-// app.listen(3000)
+app.listen(3000);
 
 
-console.log(new PromoList('137975048;133638079'))

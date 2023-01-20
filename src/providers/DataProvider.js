@@ -1,7 +1,11 @@
-const axios = require('axios')
+const AdvertsRepository = require("../repositories/AdvertsRepository");
+const PromoListRepository = require("../repositories/PromoListRepository");
 
-class DataProvier {
-    getPromo(){
-        
+module.exports = class DataProvider {
+
+    getPromo(requestString){
+        return new AdvertsRepository(requestString).getAdvertsIds().then(idsString => {
+            return new PromoListRepository(idsString).getAdvertsObjects().then(promoObjects => promoObjects.length)
+        })
     }
 }
