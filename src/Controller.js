@@ -1,4 +1,4 @@
-const DataProvider = require("./Providers/DataProvider")
+const DataProvider = require("./providers/DataProvider")
 
 exports.promo = (req,res) => {
     let dataProvider = new DataProvider()
