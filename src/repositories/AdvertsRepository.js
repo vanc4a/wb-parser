@@ -10,9 +10,24 @@ module.exports = class AdvertsRepository {
     getAdvertsIds () {
         return axios.get(this.URL.href).then(value => {
             let idsString = '';
-            console.log(value.data.adverts.length)
-            value.data.adverts.map(product => idsString += `${product.id};`)
-            return idsString
+            let advertsArr = [];
+            let positionsObject = {};
+            let posNum = 0; 
+            if(value.data.adverts == null){
+               throw 404
+            }
+
+            value.data.pages.map(page => {
+                page.positions.map(pos => advertsArr.push(`page: ${page.page}, position: ${pos}`));
+            })
+
+            value.data.adverts.map(product => {
+                idsString += `${product.id};`;
+                positionsObject[product.id] = advertsArr[posNum]
+                posNum += 1;
+            })
+            
+            return {ids: idsString, positions: positionsObject}
         })
     }
 }

@@ -2,15 +2,16 @@ const DataProvider = require("./Providers/DataProvider")
 
 exports.promo = (req,res) => {
     let dataProvider = new DataProvider()
-    try {
-        let searchString = ''
-        if(!req.query.text){
-            throw 'No search text.'
+    let searchString = ''
+
+    if(!req.query.text){
+        return res.status(404).send('Nothing to search.')
+    }
+    searchString = req.query.text.replace('%',' ')
+    dataProvider.getPromo(searchString).then(promo => res.send(promo)).catch(err => {
+        if(err == 404) {
+            return res.status(404).send('Bad request.')
         }
-        searchString = req.query.text.replace('%',' ')
-        dataProvider.getPromo(searchString).then(promo => console.log(promo))
-    }
-    catch {
-        res.status(500).send('Something went wrong.')
-    }
+        return res.status(500).send('Something went wrong.')
+    })
 }
